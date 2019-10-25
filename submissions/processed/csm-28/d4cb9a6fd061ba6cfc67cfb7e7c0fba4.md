@@ -1,0 +1,96 @@
+# [Back to main](https://github.com/glaghari/database-assignement-2019)
+<!-- -->
+>     -- Create branch table.
+>     
+>     -- CONSTRAINTS
+>     -- There should only be one branch in a city.
+>     
+>     create table Branch (
+>        branch_id char(4),
+>        city varchar2(20) not null,
+>        address varchar2(20) not null,
+>        unique(city),
+>        primary key (branch_id)
+>     );
+> 
+> ✓
+
+<!-- -->
+>     -- Create an employee table.
+>     
+>     -- CONSTRAINTS
+>     -- An employee must get a minimum salary of 20000
+>     -- and an employee can not get more than 200000.
+>     
+>     create table Employee (
+>        emp_id char(4),
+>        first_name varchar2(20) not null,
+>        last_name varchar2(20) not null,
+>        email varchar2(30),
+>        position varchar2(10) check (position in ('Worker', 'Supervisor', 'Manager')) not null,
+>        gender char default 'M' check (gender in ('M', 'F')) not null,
+>        dob date not null,
+>        hire_date date not null,
+>        salary number(6) check (salary between 30000 and 200000),
+>        branch_id char(4),
+>        primary key (emp_id),
+>        foreign key (branch_id) references Branch (branch_id)
+>     );
+> 
+> ✓
+
+<!-- -->
+>     -- Add some branches
+>     
+>     begin
+>     insert into Branch values('B001', 'Jamshoro', 'Sindh University');
+>     insert into Branch values('B002', 'Karachi', 'Mazaar-e-quaid');
+>     insert into Branch values('B003', 'Hyderabad', 'Latifabad');
+>     insert into Branch values('B004', 'Nawabshah', 'Pumhs University');
+>     insert into Branch values('B005', 'Lahore', 'Lahore Museum');
+>     insert into Branch values('B006', 'Sukkur', 'Sukkur Barrage');
+>     insert into Branch values('B007', 'Islamabad', 'Rawal Lake');
+>     insert into Branch values('B008', 'TandoAllahYar', 'Ramapir Temple');
+>     insert into Branch values('B009', 'Thatta', 'Keenjhar Lake');
+>     insert into Branch values('B010', 'Khairpur', 'Kot Diji');
+>     end;
+>     /
+> 
+1 rows affected
+
+<!-- -->
+>     -- Add some employees
+>     -- DATE format is 'YYYY-MM-DD'
+>     begin
+>     insert into Employee
+>       (emp_id, first_name, last_name, email, position,gender,dob, hire_date, salary, branch_id)
+>       values('E001', 'Fardan', 'Ahmed', 'fardan.ahmed@gmail.com', 'Manager','M', date '2000-01-01', date '2019-02-11', 40000, 'B001');
+>     insert into Employee
+>       values('E002', 'kashif', 'Ali', 'kashif.ali@yahoo.com', 'Worker', 'M', date '2000-04-02', date '2007-11-02', 75000, 'B002');
+>     insert into Employee
+>       values('E003', 'Basit', 'Arain', 'basit.arain@gmail.com', 'Supervisor', 'M', date '2001-02-11', date '2015-01-02', 80000, 'B003');
+>     insert into Employee
+>       values('E004', 'Abdul', 'Rashid', 'rashid.ahmed@gmail.com', 'Worker', 'M', date '2001-02-12', date '2017-01-02', 88000, 'B004'); 
+>     insert into Employee
+>       values('E005', 'Talha', 'Shah', 'talha.shah@gmail.com', 'Manager', 'M', date '2005-02-11', date '2015-01-02', 65000, 'B005');
+>       insert into Employee
+>       values('E006', 'Muhammad', 'Zayan', 'muhammad.zayan@gmail.com', 'Worker', 'M', date '2006-02-11', date '2015-01-02', 45000, 'B006');
+>       insert into Employee
+>       values('E007', 'muaz', 'Bhatti', 'muaz.bhatti@gmail.com', 'Manager', 'M', date '2004-02-11', date '2015-01-02', 45000, 'B007');
+>       insert into Employee
+>      values('E008', 'Suhail', 'Ahmed', 'suhail.ahmed@gmail.com', 'Supervisor', 'M', date '2015-01-11', date '2018-01-02', 90000, 'B008');
+>      insert into Employee
+>       values('E009', 'Zeeshan', 'Memon', 'zeeshan.memon@gmail.com', 'Worker', 'M', date '2010-02-11', date '2015-01-02', 45000, 'B009');
+>       insert into Employee
+>       values('E010', 'Saad', 'Ahmed', 'saad.ahmed@gmail.com', 'Manager', 'M', date '2011-02-11', date '2015-01-11', 43000, 'B010');
+>       insert into Employee
+>       values('E011', 'Ayesha', 'Rajpot', 'ayesha.rajpot@gmail.com', 'Manager', 'F', date '2015-02-11', date '2018-01-02', 32000, 'B008');
+>       insert into Employee
+>       values('E012', 'Muskan', 'Memon', 'muskan.memon@gmail.com', 'Manager', 'F', date '2008-02-11', date '2019-01-02', 65000, 'B009');
+>       end;
+>     /
+> 
+1 rows affected
+
+*db<>fiddle [here](https://dbfiddle.uk/?rdbms=oracle_11.2&fiddle=d4cb9a6fd061ba6cfc67cfb7e7c0fba4)*
+
