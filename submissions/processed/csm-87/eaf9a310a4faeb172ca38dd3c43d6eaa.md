@@ -1,0 +1,202 @@
+# [Back to main](https://github.com/glaghari/database-assignement-2019)
+<!-- -->
+>     -- Create branch table.
+>     
+>     -- CONSTRAINTS
+>     -- There should only be one branch in a city.
+>     
+>     create table Branch (
+>        branch_id char(4),
+>        city varchar2(20) not null,
+>        address varchar2(20) not null,
+>        unique(city),
+>        primary key (branch_id)
+>     );
+> 
+> ✓
+
+<!-- -->
+>     -- Create an employee table.
+>     
+>     -- CONSTRAINTS
+>     -- An employee must get a minimum salary of 20000
+>     -- and an employee can not get more than 200000.
+>     
+>     create table Employee (
+>        emp_id char(4),
+>        first_name varchar2(20) not null,
+>        last_name varchar2(20) not null,
+>        email varchar2(30),
+>        position varchar2(40) check (position in ('Worker', 'Supervisor', 'Manager')) not null,
+>        gender char default 'M' check (gender in ('M', 'F')) not null,
+>        dob date not null,
+>        hire_date date not null,
+>        salary number(6) check (salary between 30000 and 200000),
+>        branch_id char(4),
+>        primary key (emp_id),
+>        foreign key (branch_id) references Branch (branch_id)
+>     );
+> 
+> ✓
+
+<!-- -->
+>     -- Add some branches
+>     
+>     begin
+>     insert into Branch values('B002', 'Jamshoro', 'SU Society Phase 1');
+>     insert into Branch values('B001', 'Hyderabad', 'Saddar');
+>     insert into Branch values('B003', 'Mirpurkhas', 'Main Hyderabad road');
+>     end;
+>     /
+> 
+1 rows affected
+
+<!-- -->
+>     -- Add some employees
+>     -- DATE format is 'YYYY-MM-DD'
+>     begin
+>     insert into Employee
+>       (emp_id, first_name, last_name, email, position, dob, hire_date, salary, branch_id)
+>       values('E001', 'Arsalan', 'Memon', 'arsalan.memon@gmail.com', 'Worker', date '1990-02-11', date '2019-02-11', 32000, 'B002');
+>     insert into Employee
+>       values('E002', 'Arshad', 'Memon', 'arshad.memon@yahoo.com', 'Manager', 'M', date '1980-02-10', date '2010-11-02', 100000, 'B001');
+>     insert into Employee
+>       values('E003', 'Basit', 'Memon', 'basit.memon@gmail.com', 'Supervisor', 'M', date '1985-02-21', date '2015-01-02', 45000, 'B001');
+>     end;
+>     /
+> 
+1 rows affected
+
+<!-- -->
+>     -- Show all branches
+>     select * from Branch;
+> 
+> | BRANCH_ID | CITY       | ADDRESS             |
+> | :-------- | :--------- | :------------------ |
+> | B002      | Jamshoro   | SU Society Phase 1  |
+> | B001      | Hyderabad  | Saddar              |
+> | B003      | Mirpurkhas | Main Hyderabad road |
+
+<!-- -->
+>     -- Show all employees
+>     select * from Employee;
+> 
+> | EMP_ID | FIRST_NAME | LAST_NAME | EMAIL                   | POSITION   | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID |
+> | :----- | :--------- | :-------- | :---------------------- | :--------- | :----- | :-------- | :-------- | -----: | :-------- |
+> | E001   | Arsalan    | Memon     | arsalan.memon@gmail.com | Worker     | M      | 11-FEB-90 | 11-FEB-19 |  32000 | B002      |
+> | E002   | Arshad     | Memon     | arshad.memon@yahoo.com  | Manager    | M      | 10-FEB-80 | 02-NOV-10 | 100000 | B001      |
+> | E003   | Basit      | Memon     | basit.memon@gmail.com   | Supervisor | M      | 21-FEB-85 | 02-JAN-15 |  45000 | B001      |
+
+<!-- -->
+>     -- Query -> List the details of employees workig at Hyderabad branch.
+>     -- First we can find the branch id of Hyderabad city from branch table.
+>     -- Then use the branch id to restrict the rows in employee table.
+>     select branch_id from Branch where city = 'Mirpurkhas';
+> 
+> | BRANCH_ID |
+> | :-------- |
+> | B003      |
+
+<!-- -->
+>     -- Now list the details of employees workig at Hyderabad branch.
+>     select * from Employee where branch_id = 'B002';
+> 
+> | EMP_ID | FIRST_NAME | LAST_NAME | EMAIL                   | POSITION | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID |
+> | :----- | :--------- | :-------- | :---------------------- | :------- | :----- | :-------- | :-------- | -----: | :-------- |
+> | E001   | Arsalan    | Memon     | arsalan.memon@gmail.com | Worker   | M      | 11-FEB-90 | 11-FEB-19 |  32000 | B002      |
+
+<!-- -->
+>     -- Add some branches
+>     
+>     begin
+>     insert into Branch values('B004', 'Mithi', 'chandani chock');
+>     insert into Branch values('B006', 'Islamkot', 'Coal area');
+>     insert into Branch values('B005', 'Samaro', 'Peer Colony');
+>     end;
+>     /
+> 
+1 rows affected
+
+<!-- -->
+>     -- Add some employees
+>     -- DATE format is 'YYYY-MM-DD'
+>     begin
+>     insert into Employee
+>       (emp_id, first_name, last_name, email, position, dob, hire_date, salary, branch_id)
+>       values('E004', 'Parbat', 'Hamirani', 'parbathamirani@gmail.com', 'Manager', date '1998-05-06', date '2018-09-12', 37000, 'B005');
+>     insert into Employee
+>       values('E005', 'Munwar', 'Sham', 'Munwarsham2000@yahoo.com', 'Worker', 'M', date '1989-04-12', date '2015-06-03', 200000, 'B006');
+>     insert into Employee
+>       values('E006', 'RaviShanker', 'Rathore', 'ravishankermeghwar@gmail.com', 'Supervisor', 'M', date '2000-02-01', date '2019-12-08', 50000, 'B006');
+>     end;
+>     /
+> 
+1 rows affected
+
+<!-- -->
+>     -- Show all branches
+>     select * from Branch;
+> 
+> | BRANCH_ID | CITY       | ADDRESS             |
+> | :-------- | :--------- | :------------------ |
+> | B002      | Jamshoro   | SU Society Phase 1  |
+> | B001      | Hyderabad  | Saddar              |
+> | B003      | Mirpurkhas | Main Hyderabad road |
+> | B004      | Mithi      | chandani chock      |
+> | B006      | Islamkot   | Coal area           |
+> | B005      | Samaro     | Peer Colony         |
+
+<!-- -->
+>     -- Show all employees
+>     select * from Employee;
+> 
+> | EMP_ID | FIRST_NAME  | LAST_NAME | EMAIL                        | POSITION   | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID |
+> | :----- | :---------- | :-------- | :--------------------------- | :--------- | :----- | :-------- | :-------- | -----: | :-------- |
+> | E001   | Arsalan     | Memon     | arsalan.memon@gmail.com      | Worker     | M      | 11-FEB-90 | 11-FEB-19 |  32000 | B002      |
+> | E002   | Arshad      | Memon     | arshad.memon@yahoo.com       | Manager    | M      | 10-FEB-80 | 02-NOV-10 | 100000 | B001      |
+> | E003   | Basit       | Memon     | basit.memon@gmail.com        | Supervisor | M      | 21-FEB-85 | 02-JAN-15 |  45000 | B001      |
+> | E004   | Parbat      | Hamirani  | parbathamirani@gmail.com     | Manager    | M      | 06-MAY-98 | 12-SEP-18 |  37000 | B005      |
+> | E005   | Munwar      | Sham      | Munwarsham2000@yahoo.com     | Worker     | M      | 12-APR-89 | 03-JUN-15 | 200000 | B006      |
+> | E006   | RaviShanker | Rathore   | ravishankermeghwar@gmail.com | Supervisor | M      | 01-FEB-00 | 08-DEC-19 |  50000 | B006      |
+
+<!-- -->
+>     SELECT branch_id, COUNT(emp_id) AS total_employees, SUM(salary) AS total_salary,avg(salary) As average,min(salary) as min_salary,max(salary) as max_salary
+>     FROM Employee 
+>     GROUP BY branch_id
+>     ORDER BY branch_id; 
+> 
+> | BRANCH_ID | TOTAL_EMPLOYEES | TOTAL_SALARY | AVERAGE | MIN_SALARY | MAX_SALARY |
+> | :-------- | --------------: | -----------: | ------: | ---------: | ---------: |
+> | B001      |               2 |       145000 |   72500 |      45000 |     100000 |
+> | B002      |               1 |        32000 |   32000 |      32000 |      32000 |
+> | B005      |               1 |        37000 |   37000 |      37000 |      37000 |
+> | B006      |               2 |       250000 |  125000 |      50000 |     200000 |
+
+<!-- -->
+>     SELECT *
+>     FROM Employee
+>     WHERE branch_id = (SELECT branch_id FROM Branch
+>     WHERE city = 'Hyderabad'); 
+> 
+> | EMP_ID | FIRST_NAME | LAST_NAME | EMAIL                  | POSITION   | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID |
+> | :----- | :--------- | :-------- | :--------------------- | :--------- | :----- | :-------- | :-------- | -----: | :-------- |
+> | E002   | Arshad     | Memon     | arshad.memon@yahoo.com | Manager    | M      | 10-FEB-80 | 02-NOV-10 | 100000 | B001      |
+> | E003   | Basit      | Memon     | basit.memon@gmail.com  | Supervisor | M      | 21-FEB-85 | 02-JAN-15 |  45000 | B001      |
+
+<!-- -->
+>     
+>     Select emp_id,first_name,last_name,email,position,gender,dob,hire_date,salary,branch.branch_id,branch.city,branch.address
+>     From Employee,Branch
+>     Where Employee.branch_id=Branch.branch_id
+> 
+> | EMP_ID | FIRST_NAME  | LAST_NAME | EMAIL                        | POSITION   | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID | CITY      | ADDRESS            |
+> | :----- | :---------- | :-------- | :--------------------------- | :--------- | :----- | :-------- | :-------- | -----: | :-------- | :-------- | :----------------- |
+> | E001   | Arsalan     | Memon     | arsalan.memon@gmail.com      | Worker     | M      | 11-FEB-90 | 11-FEB-19 |  32000 | B002      | Jamshoro  | SU Society Phase 1 |
+> | E003   | Basit       | Memon     | basit.memon@gmail.com        | Supervisor | M      | 21-FEB-85 | 02-JAN-15 |  45000 | B001      | Hyderabad | Saddar             |
+> | E002   | Arshad      | Memon     | arshad.memon@yahoo.com       | Manager    | M      | 10-FEB-80 | 02-NOV-10 | 100000 | B001      | Hyderabad | Saddar             |
+> | E006   | RaviShanker | Rathore   | ravishankermeghwar@gmail.com | Supervisor | M      | 01-FEB-00 | 08-DEC-19 |  50000 | B006      | Islamkot  | Coal area          |
+> | E005   | Munwar      | Sham      | Munwarsham2000@yahoo.com     | Worker     | M      | 12-APR-89 | 03-JUN-15 | 200000 | B006      | Islamkot  | Coal area          |
+> | E004   | Parbat      | Hamirani  | parbathamirani@gmail.com     | Manager    | M      | 06-MAY-98 | 12-SEP-18 |  37000 | B005      | Samaro    | Peer Colony        |
+
+*db<>fiddle [here](https://dbfiddle.uk/?rdbms=oracle_11.2&fiddle=eaf9a310a4faeb172ca38dd3c43d6eaa)*
+

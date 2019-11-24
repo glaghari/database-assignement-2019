@@ -1,0 +1,172 @@
+# [Back to main](https://github.com/glaghari/database-assignement-2019)
+<!-- -->
+>     -- Create branch table.
+>     
+>     -- CONSTRAINTS
+>     -- There should only be one branch in a city.
+>     
+>     create table Branch (
+>        branch_id char(4),
+>        city varchar2(20) not null,
+>        address varchar2(20) not null,
+>        unique(city),
+>        primary key (branch_id)
+>     );
+> 
+> ✓
+
+<!-- -->
+>     -- Create an employee table.
+>     
+>     -- CONSTRAINTS
+>     -- An employee must get a minimum salary of 20000
+>     -- and an employee can not get more than 200000.
+>     
+>     create table Employee (
+>        emp_id char(4),
+>        first_name varchar2(20) not null,
+>        last_name varchar2(20) not null,
+>        email varchar2(30),
+>        position varchar2(10) check (position in ('Worker', 'Supervisor', 'Manager')) not null,
+>        gender char default 'M' check (gender in ('M', 'F')) not null,
+>        dob date not null,
+>        hire_date date not null,
+>        salary number(6) check (salary between 30000 and 200000),
+>        branch_id char(4),
+>        primary key (emp_id),
+>        foreign key (branch_id) references Branch (branch_id)
+>     );
+> 
+> ✓
+
+<!-- -->
+>     -- Add some branches
+>     
+>     begin
+>     insert into Branch values('B002', 'Jamshoro', 'SU Society Phase 1');
+>     insert into Branch values('B001', 'Hyderabad', 'Saddar');
+>     insert into Branch values('B003', 'Mirpurkhas', 'Main Hyderabad road');
+>     insert into Branch values('B004','karachi','sadar');
+>     insert into Branch values('B005','khairpur','main road');
+>     insert into Branch values('B006','tando adam','halla road');
+>     end;
+>     /
+> 
+1 rows affected
+
+<!-- -->
+>     -- Add some employees
+>     -- DATE format is 'YYYY-MM-DD'
+>     begin
+>     insert into Employee
+>       (emp_id, first_name, last_name, email, position, dob, hire_date, salary, branch_id)
+>       values('E001', 'Arsalan', 'Memon', 'arsalan.memon@gmail.com', 'Worker', date '1990-02-11', date '2019-02-11', 32000, 'B001');
+>     insert into Employee
+>       values('E002', 'Arshad', 'Memon', 'arshad.memon@yahoo.com', 'Manager', 'M', date '1980-02-10', date '2010-11-02', 100000, 'B001');
+>     insert into Employee
+>       values('E003', 'Basit', 'Memon', 'basit.memon@gmail.com', 'Supervisor', 'M', date '1985-02-21', date '2015-01-02', 45000, 'B001');
+>     insert into Employee
+>       values('E004', 'Ali', 'Rajput', 'ali.rajput@gmail.com', 'Worker', 'M', date '1998-3-23', date '2018-6-04', 35000, 'B002');
+>     insert into Employee
+>       values ('E005', 'Sagar', 'Sameejo', 'sagar.samerjo@gmail.com', 'Manager', 'M', date '1994-9-02', date '2014-9-3', 90000, 'B006');
+>     insert into Employee
+>       values ('E006', 'Ramesh', 'khatri', 'ramesh.khatri@gmail.com', 'Worker', 'M', date '1991-8-09', date '2007-4-01', 30000, 'B004');
+>     end;
+>     /
+> 
+1 rows affected
+
+<!-- -->
+>     -- Show all branches
+>     select * from Branch;
+> 
+> | BRANCH_ID | CITY       | ADDRESS             |
+> | :-------- | :--------- | :------------------ |
+> | B002      | Jamshoro   | SU Society Phase 1  |
+> | B001      | Hyderabad  | Saddar              |
+> | B003      | Mirpurkhas | Main Hyderabad road |
+> | B004      | karachi    | sadar               |
+> | B005      | khairpur   | main road           |
+> | B006      | tando adam | halla road          |
+
+<!-- -->
+>     -- Show all employees
+>     select * from Employee;
+> 
+> | EMP_ID | FIRST_NAME | LAST_NAME | EMAIL                   | POSITION   | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID |
+> | :----- | :--------- | :-------- | :---------------------- | :--------- | :----- | :-------- | :-------- | -----: | :-------- |
+> | E001   | Arsalan    | Memon     | arsalan.memon@gmail.com | Worker     | M      | 11-FEB-90 | 11-FEB-19 |  32000 | B001      |
+> | E002   | Arshad     | Memon     | arshad.memon@yahoo.com  | Manager    | M      | 10-FEB-80 | 02-NOV-10 | 100000 | B001      |
+> | E003   | Basit      | Memon     | basit.memon@gmail.com   | Supervisor | M      | 21-FEB-85 | 02-JAN-15 |  45000 | B001      |
+> | E004   | Ali        | Rajput    | ali.rajput@gmail.com    | Worker     | M      | 23-MAR-98 | 04-JUN-18 |  35000 | B002      |
+> | E005   | Sagar      | Sameejo   | sagar.samerjo@gmail.com | Manager    | M      | 02-SEP-94 | 03-SEP-14 |  90000 | B006      |
+> | E006   | Ramesh     | khatri    | ramesh.khatri@gmail.com | Worker     | M      | 09-AUG-91 | 01-APR-07 |  30000 | B004      |
+
+<!-- -->
+>     -- Query -> List the details of employees workig at Hyderabad branch.
+>     -- First we can find the branch id of Hyderabad city from branch table.
+>     -- Then use the branch id to restrict the rows in employee table.
+>     select branch_id from Branch where city = 'Hyderabad';
+> 
+> | BRANCH_ID |
+> | :-------- |
+> | B001      |
+
+<!-- -->
+>     -- Now list the details of employees workig at Hyderabad branch.
+>     select * from Employee where branch_id = 'B001';
+> 
+> | EMP_ID | FIRST_NAME | LAST_NAME | EMAIL                   | POSITION   | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID |
+> | :----- | :--------- | :-------- | :---------------------- | :--------- | :----- | :-------- | :-------- | -----: | :-------- |
+> | E001   | Arsalan    | Memon     | arsalan.memon@gmail.com | Worker     | M      | 11-FEB-90 | 11-FEB-19 |  32000 | B001      |
+> | E002   | Arshad     | Memon     | arshad.memon@yahoo.com  | Manager    | M      | 10-FEB-80 | 02-NOV-10 | 100000 | B001      |
+> | E003   | Basit      | Memon     | basit.memon@gmail.com   | Supervisor | M      | 21-FEB-85 | 02-JAN-15 |  45000 | B001      |
+
+<!-- -->
+>     --Task 4: List all the branches with the total number of employees (count), their total salaries (sum), their average salary (average), and the minimum and maximum salaries.
+>     
+>     Select Branch_id, count(*) as No_of_Employees, sum(Salary) as Total_Salaries, avg(Salary) as Average_Salary,min(Salary) as Minimum_Salary,max(Salary) as Maximum_Salary
+>     
+>     From Employee
+>     
+>     Group By Branch_id
+> 
+> | BRANCH_ID | NO_OF_EMPLOYEES | TOTAL_SALARIES | AVERAGE_SALARY | MINIMUM_SALARY | MAXIMUM_SALARY |
+> | :-------- | --------------: | -------------: | -------------: | -------------: | -------------: |
+> | B002      |               1 |          35000 |          35000 |          35000 |          35000 |
+> | B006      |               1 |          90000 |          90000 |          90000 |          90000 |
+> | B004      |               1 |          30000 |          30000 |          30000 |          30000 |
+> | B001      |               3 |         177000 |          59000 |          32000 |         100000 |
+
+<!-- -->
+>     --Task 5: List all employees working in the 'HYD' branch (Hint write a subquery)
+>     
+>     Select * From Employee
+>     
+>     Where Branch_id=(Select Branch_id From Branch Where City='Hyderabad')
+> 
+> | EMP_ID | FIRST_NAME | LAST_NAME | EMAIL                   | POSITION   | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID |
+> | :----- | :--------- | :-------- | :---------------------- | :--------- | :----- | :-------- | :-------- | -----: | :-------- |
+> | E001   | Arsalan    | Memon     | arsalan.memon@gmail.com | Worker     | M      | 11-FEB-90 | 11-FEB-19 |  32000 | B001      |
+> | E002   | Arshad     | Memon     | arshad.memon@yahoo.com  | Manager    | M      | 10-FEB-80 | 02-NOV-10 | 100000 | B001      |
+> | E003   | Basit      | Memon     | basit.memon@gmail.com   | Supervisor | M      | 21-FEB-85 | 02-JAN-15 |  45000 | B001      |
+
+<!-- -->
+>     --task 6
+>     Select emp_id,first_name,last_name,email,position,gender,dob,hire_date,salary,branch.branch_id,branch.city,branch.address
+>     
+>     From Employee,Branch
+>     
+>     Where Employee.branch_id=Branch.branch_id
+> 
+> | EMP_ID | FIRST_NAME | LAST_NAME | EMAIL                   | POSITION   | GENDER | DOB       | HIRE_DATE | SALARY | BRANCH_ID | CITY       | ADDRESS            |
+> | :----- | :--------- | :-------- | :---------------------- | :--------- | :----- | :-------- | :-------- | -----: | :-------- | :--------- | :----------------- |
+> | E004   | Ali        | Rajput    | ali.rajput@gmail.com    | Worker     | M      | 23-MAR-98 | 04-JUN-18 |  35000 | B002      | Jamshoro   | SU Society Phase 1 |
+> | E003   | Basit      | Memon     | basit.memon@gmail.com   | Supervisor | M      | 21-FEB-85 | 02-JAN-15 |  45000 | B001      | Hyderabad  | Saddar             |
+> | E002   | Arshad     | Memon     | arshad.memon@yahoo.com  | Manager    | M      | 10-FEB-80 | 02-NOV-10 | 100000 | B001      | Hyderabad  | Saddar             |
+> | E001   | Arsalan    | Memon     | arsalan.memon@gmail.com | Worker     | M      | 11-FEB-90 | 11-FEB-19 |  32000 | B001      | Hyderabad  | Saddar             |
+> | E006   | Ramesh     | khatri    | ramesh.khatri@gmail.com | Worker     | M      | 09-AUG-91 | 01-APR-07 |  30000 | B004      | karachi    | sadar              |
+> | E005   | Sagar      | Sameejo   | sagar.samerjo@gmail.com | Manager    | M      | 02-SEP-94 | 03-SEP-14 |  90000 | B006      | tando adam | halla road         |
+
+*db<>fiddle [here](https://dbfiddle.uk/?rdbms=oracle_11.2&fiddle=d4df17e71ce66be77dedffc6e10292ad)*
+
