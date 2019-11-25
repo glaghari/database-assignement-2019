@@ -3,44 +3,44 @@ Database Management by Nick Youngson CC BY-SA 3.0 Alpha Stock Images
 
 # Intro
 
-This semester (2019) I had a cahnce to teach `Database Management System` course to second year undergraduate students. We had a fun teaching and learning this course.
+This semester (2019) I had a chance to teach `Database Management System` course to second year undergraduate students. We had a fun teaching and learning this course.
 Practically, we focussed more on [SQL](https://en.wikipedia.org/wiki/SQL) and [Relational Algebra](https://en.wikipedia.org/wiki/Relational_algebra).
 
-This reposirtory documents some practical details about the course.
+This repository documents some practical details about the course.
 
 ## SQL
 
 To practice `SQL`, we used Oracle DBMS.
-[![](https://dbfiddle.uk/logo.png)](https://dbfiddle.uk/) is the palteform we used for practical tasks.
+[![](https://dbfiddle.uk/logo.png)](https://dbfiddle.uk/) is the platform we used for practical tasks.
 
-The choice of the _fiddle_ based palteform was motivated by following reasons.
+The choice of the _fiddle_ based platform was motivated by following reasons.
 
-1. Since at the learning level the databases involved are often small scale with short quries, the fiddles are most suiteable for these scenarios. Furthermore, dbfiddle saves students from the hastle of `DBMS` installation etc.
+1. Since at the learning level the databases involved are often small scale with short queries, the fiddles are most suitable for these scenarios. Furthermore, dbfiddle saves students from the hassle of `DBMS` installation etc.
 
-2. As the dbfiddle is containerised and running it starts a fresh container, there is no previous data available hence to even run a simple select qurery it requires first to create the table structure and inserting some rows before a select can fetech some data. Thus both strcutral parts `DDL` and manipulation parts `DML` need to be present in the fiddle. This is helpful for learning database manipulation, since students can see the structure of the database.
+2. As the dbfiddle is containerised and running it starts a fresh container, there is no previous data available hence to even run a simple select query it requires first to create the table structure and inserting some rows before a select can fetch some data. Thus both structural parts `DDL` and manipulation parts `DML` need to be present in the fiddle. This is helpful for learning database manipulation, since students can see the structure of the database.
 
-3. The very purpose of the dbfiddle is also help learners by providing a plateform that they can use in understanding the quries and asking the questions about the queries by _embedding_ the queries in Q/A sites.
+3. The very purpose of the dbfiddle is also help learners by providing a platform that they can use in understanding the queries and asking the questions about the queries by _embedding_ the queries in Q/A sites.
 
-4. Lastly, using dbfiddle also helped in collecting assignements from the students online. See [Assignements](#Assignements) section bellow.
+4. Lastly, using dbfiddle also helped in collecting assignments from the students online. See [Assignments](#Assignments) section bellow.
 
 ## Relational Algebra
 
-To practice `Relational Algebra`, we used the nice online tool [RelaX - relational algebra calculator](https://dbis-uibk.github.io/relax/). The _Relax_ comes with a rich set of features. It visualizes in the form a tree how the relational algebra operations are performed. More importntly it can also convert `SQL` queries into `Relational Algebra`.
+To practice `Relational Algebra`, we used the nice online tool [RelaX - relational algebra calculator](https://dbis-uibk.github.io/relax/). The _Relax_ comes with a rich set of features. It visualises in the form a tree how the relational algebra operations are performed. More importantly it can also convert `SQL` queries into `Relational Algebra`.
 
-Here's an example screenshot for a selection operation embeded in a projection operation.
+Here's an example screenshot for a selection operation embedded in a projection operation.
 
 ![](rl.png)
 
 ---
 
-# Assignements
+# Assignments
 
-I adopted the online process of assigning and collecting the assignemnets and autoamted it considerably.
+I adopted the online process of assigning and collecting the assignments and automated it considerably.
 
-For assigning the and collecting the tasks, I used [Google Forms](https://www.google.com/forms/about/). More specifically I asked the students to use the [fiddle](https://dbfiddle.uk/?rdbms=oracle_11.2&fiddle=2136392f0a34ad6b03642cbfc84fe40b) as a tempate and complete the assigned tasks (write the quries) and submit them (the links to their fiddles) via `Google Form`. Meanwhile they could also see what they (and their colleauges) are submitting via **this repository**. The whole purpose of this was activity based learning.
+For assigning and collecting the tasks, I used [Google Forms](https://www.google.com/forms/about/). More specifically I asked the students to use the [fiddle](https://dbfiddle.uk/?rdbms=oracle_11.2&fiddle=2136392f0a34ad6b03642cbfc84fe40b) as a template and complete the assigned tasks (write the queries) and submit them (the links to their fiddles) via `Google Form`. Meanwhile they could also see what they (and their colleagues) are submitting via **this repository**. The whole purpose of this was activity based learning.
 
-I wrote some scripts ([Bash](https://www.gnu.org/software/bash/) and [PhantomJS](https://phantomjs.org/)) for myslef to collect the responses and preapre this repositoy.
-The section bellow (and the submissions direcotry) were created by those scripts.
+I wrote some scripts ([Bash](https://www.gnu.org/software/bash/) and [PhantomJS](https://phantomjs.org/)) for myself to collect the responses and prepare this repository.
+The section bellow (and the submissions directory) were created by those scripts.
 
 ## Submissions
 
